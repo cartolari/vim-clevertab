@@ -3,6 +3,10 @@
 " Indent if we're at the beginning of a line. Else, do completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+function! s:ExitInsertAndComplete(completion)
+  return "\<Esc>a" . a:completion
+endfunction
+
 function! CleverTab#Complete(type)
   "echom "type: " . a:type
 
@@ -41,7 +45,7 @@ function! CleverTab#Complete(type)
       echom "Omni Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
-      return "\<C-X>\<C-O>"
+      return s:ExitInsertAndComplete("\<C-X>\<C-O>")
     endif
 
 
@@ -50,7 +54,7 @@ function! CleverTab#Complete(type)
       echom "User Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
-      return "\<C-X>\<C-U>"
+      return s:ExitInsertAndComplete("\<C-X>\<C-U>")
     endif
 
 
@@ -58,7 +62,7 @@ function! CleverTab#Complete(type)
     echom "Keyword Complete"
     let g:CleverTab#next_step_direction="P"
     let g:CleverTab#eat_next=1
-    return "\<C-P>"
+    return s:ExitInsertAndComplete("\<C-P>")
 
 
   elseif a:type == 'neocomplete' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
