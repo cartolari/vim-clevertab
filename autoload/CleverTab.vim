@@ -11,12 +11,6 @@ function! CleverTab#Complete(type)
   "echom "type: " . a:type
 
   if a:type == 'start'
-    if has("autocmd")
-      augroup CleverTabAu
-        autocmd CursorMovedI *  if pumvisible() == 0 && g:CleverTab#autocmd_set|let g:CleverTab#autocmd_set = 0|pclose|call CleverTab#ClearAutocmds()|endif
-        autocmd InsertLeave *  if pumvisible() == 0 && g:CleverTab#autocmd_set|let g:CleverTab#autocmd_set = 0|pclose|call CleverTab#ClearAutocmds()|endif
-      augroup END
-    endif
     if !exists("g:CleverTab#next_step_direction")
       echom "Clevertab Start"
       let g:CleverTab#next_step_direction="0"
@@ -97,9 +91,4 @@ function! CleverTab#Complete(type)
 
 
   return ""
-endfunction
-
-function! CleverTab#ClearAutocmds()
-  autocmd! CleverTabAu InsertLeave *
-  autocmd! CleverTabAu CursorMovedI *
 endfunction
