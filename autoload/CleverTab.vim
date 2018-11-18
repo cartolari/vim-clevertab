@@ -61,6 +61,17 @@ function! CleverTab#Complete(type)
     return ""
 
 
+  elseif a:type == 'next'
+    if !pumvisible()
+      return ""
+    end
+    let g:CleverTab#stop=1
+    if g:CleverTab#next_step_direction=="P"
+      return "\<C-P>"
+    else
+      return "\<C-N>"
+    endif
+
   elseif a:type == "forcedtab" && !g:CleverTab#stop
     echom "Forcedtab"
     let g:CleverTab#next_step_direction="0"
@@ -68,7 +79,7 @@ function! CleverTab#Complete(type)
     return "\<Tab>"
 
 
-  elseif a:type == "stop" || a:type == "next"
+  elseif a:type == "stop"
     if g:CleverTab#stop || g:CleverTab#eat_next==1
       let g:CleverTab#stop=0
       let g:CleverTab#eat_next=0
